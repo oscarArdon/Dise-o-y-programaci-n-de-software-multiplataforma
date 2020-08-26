@@ -1,0 +1,25 @@
+
+    input,select {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        width: 30%;
+        padding: 10px 20px;
+        margin: 20px 0;
+        box-sizing: border-box;
+        font-size: 1vw;
+        }
+        label{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 2vw;
+        }
+        .header {
+        padding: 10px;
+        text-align: center;
+        background: #096B67;
+        color: white;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 20px;
+        }
+    
+        .form {
+            text-align: center;
+        }

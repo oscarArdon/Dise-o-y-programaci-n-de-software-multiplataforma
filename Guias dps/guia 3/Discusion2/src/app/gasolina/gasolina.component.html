@@ -1,0 +1,25 @@
+<div class="header">
+    <h1>Compra de combustible</h1>
+    </div>
+    <br>
+<div class="form">
+   <label>Cantidad(Galns)</label>
+   <br>
+   <input type="number" min="0.05" max="150" step="0.05" [(ngModel)]="cantidad">
+   <br>
+   <label>Tipo de combustible</label>
+   <br>
+   <select [(ngModel)]="opcion" (change)="calcular()">
+    <br>   
+    <option value="Selecciona">Selecciona</option>
+    <option *ngFor="let u of tipo" value="{{u}}" >
+    {{u}}
+    </option>
+   </select>
+   <br>
+   <label>Total a pagar</label>
+
+   <br>
+   <input type="text" value="Son ${{total}} por {{cantidad}} Galones de {{opcion}}   " readonly>
+</div>
+
