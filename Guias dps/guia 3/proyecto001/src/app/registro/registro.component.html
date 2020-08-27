@@ -1,0 +1,30 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1>Datos de alumno</h1>    
+        <hr class="my-2">
+        <p>Ingrese los datos de los alumnos</p>
+        <label>Nombre:</label>
+        <input class="form-control" type="text" [(ngModel)]="nombre">
+        <label>Edad:</label>
+        <input type="text" class="form-control" [(ngModel)]="edad">
+        <br>
+        <button type="button" class="form-control btn-primary btn-lg btn-block" (click)="ingresar()">Ingresar</button>
+        <br><br>
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>Mayor de edad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let talumno of registro">
+                    <td scope="row">{{talumno.nombre}}</td>
+                    <td>{{talumno.edad}}</td>
+                    <td>{{talumno.mayor}}</td>
+                </tr>            
+            </tbody>
+        </table>
+    </div>
+</div>

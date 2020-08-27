@@ -1,0 +1,45 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1>Formulario cliente</h1>        
+        <hr class="my-2">        
+        <div [hidden]="enviar"><!--El form se esconde cuando se envian los datos-->
+            <!--El ngSubmit se encarga en capturar el evento de envio de datos-->
+            <form (ngSubmit)="onSubmit()" #clienteform="ngForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-control" required [(ngModel)]="cliente.nombre" name="nombre" #name="ngModel">
+                    <!--Msg de error se esconde mientras los datos sean validos-->
+                    <div [hidden]="name.valid || name.pristine">
+                        Nombre es requerido
+                    </div>              
+                </div>
+                <div class="form-group">
+                    <label for="edad">Edad</label>
+                    <input type="text" id="edad" class="form-control" [(ngModel)]="cliente.edad" name="edad">              
+                </div>
+                <div class="form-group">
+                  <label for="nacionalidades">Nacionalidad</label>
+                  <select class="form-control" id="nacionalidades" required [(ngModel)]="cliente.nacionalidad" name="nacionalidades" #nacionalidades="ngModel">
+                    <option *ngFor="let nacion of nacionalidad" [value]="nacion">{{nacion}}</option>                
+                  </select>
+                  <div [hidden]="nacionalidades.valid || nacionalidades.pristine" class="alert alert-danger">
+                    Nacionalidad es requerida
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="!clienteform.form.valid">Submit</button>
+            </form>
+        </div>
+        <!--Se esconden los datos mientras enviar sea false-->
+        <div [hidden]="!enviar">
+            <h2>Enviar cliente</h2>
+            <hr>
+            <div><span class="badge badge-info">Id</span>-> {{cliente.id}}</div>
+            <div><span class="badge badge-info">Nombre</span>-> {{cliente.nombre}}</div>
+            <div><span class="badge badge-info">Edad</span>-> {{cliente.edad}}</div>
+            <div><span class="badge badge-info">Nacionalidad</span>-> {{cliente.nacionalidad}}</div>
+            <br>
+            <button class="btn btn-primary" (click)="enviar=false">Editar</button>
+        </div>
+    </div>
+    <br>     
+</div>

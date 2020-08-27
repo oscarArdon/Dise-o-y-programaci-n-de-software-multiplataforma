@@ -1,0 +1,19 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1>Conversión de longitud</h1>        
+      <hr class="my-2">
+      <div class="header">            
+        <p>Ingrese los datos solicitados para realizar la conversión</p>
+    </div>
+    <label>Valor (cm):</label>
+    <input type="text" class="form-control" [(ngModel)]="valorcm">
+    <label>Longitud:</label>
+    <select class="form-control" [(ngModel)]="opcionSeleccionado" (change)="capturar()">
+        <option value="Selecciona">Selecciona</option>
+        <option *ngFor="let u of unidades" value="{{u}}">
+            {{u}}
+        </option>
+    </select>
+    <label [hidden]="opcionSeleccionado=='Selecciona'">Su valor en {{opcionSeleccionado}} es: {{valorconversion}}</label>      
+    </div>
+  </div>

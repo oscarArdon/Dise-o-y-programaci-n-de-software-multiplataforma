@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-lg-3">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <div [hidden]="!ingresados">
+                    <form (ngSubmit)="onSubmit()" #cantForm="ngForm">
+                        <div class="form-group">
+                            <label>Ingrese el número de empleados:</label>
+                            <input type="text" min="1" required pattern="^[1-9][0-9]*$" name="cantidad" [(ngModel)]="cantidad" #cant="ngModel" class="form-control" autocomplete="off">
+                        </div>
+                        <div *ngIf="cant.invalid && (cant.dirty || cant.touched)" class="alert alert-danger">
+                            <div *ngIf="cant.errors.pattern">Solo se permiten números enteros positivos</div>
+                            <div *ngIf="cant.errors.required">Campo requerido</div>
+                            <div *ngIf="cant.errors.min">La cantidad minima a ingresar es 1</div>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-lg btn-block" [disabled]="!cantForm.form.valid">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9" [hidden]="!enviado">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1>Cálculo de salarios para {{cantidad}} empleados</h1>
+                <hr class="my-2">
+                <form [hidden]="contador==cantidad" class="form-inline" #addForm="ngForm">
+                    <div class="form-group b">
+                        <label>Nombre: </label>
+                        <input type="text" name="nombre" required pattern="^[a-zA-Z\s]*$" [(ngModel)]="nombre" #nom="ngModel" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group b">
+                        <label>Salario: </label>
+                        <input type="text" name="salario" required pattern="^\d{1,6}\.\d{0,2}$" [(ngModel)]="sBase" #s="ngModel" class="form-control" placeholder="ej: 300.00" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" (click)="agregar()" name="agregar" [disabled]="!addForm.form.valid" class="minfont ml-1 btn btn-primary btn-lg btn-block">{{msg}}</button>
+                    </div>
+                </form>
+                <br>
+                <div [hidden]="contador==cantidad" *ngIf="(nom.invalid && (nom.dirty || nom.touched))" class="col-lg-8 alert alert-danger">
+                    <div *ngIf="nom.errors.pattern">Solo se permiten letras</div>
+                    <div *ngIf="nom.errors.required">Campo requerido</div>                    
+                </div>
+                <div [hidden]="contador==cantidad" *ngIf="s.invalid && (s.dirty || s.touched)" class="alert alert-danger">                    
+                    <div *ngIf="s.errors.required">Campo requerido</div>
+                    <div *ngIf="s.errors.pattern">Cumplir con el formato, ej: 300.00</div>                    
+                </div> 
+                <div [hidden]="contador!=cantidad">
+                    <button (click)="fin()" type="button" class="btn btn-primary btn-lg">Finalizar</button>
+                </div>
+                <br>               
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Sueldo base</th>
+                            <th>ISSS</th>
+                            <th>RENTA</th>
+                            <th>AFP</th>
+                            <th>Salario final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let emp of registro">                            
+                            <td>{{emp.nombre}}</td>
+                            <td>{{emp.sBase | currency}}</td>
+                            <td>{{emp.isss | currency}}</td>
+                            <td>{{emp.renta | currency}}</td>
+                            <td>{{emp.afp | currency}}</td>
+                            <td>{{emp.sFinal | currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
