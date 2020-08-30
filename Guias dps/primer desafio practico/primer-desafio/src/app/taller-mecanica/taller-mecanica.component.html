@@ -86,7 +86,7 @@
                         <tr *ngFor="let reparacion of reparacionCliente">
                             <td scope="row">{{reparacion.vehiculo}}</td>
                             <td>{{reparacion.costo}}</td>
-                            <td><button class="btn btn-secondary">Ver ticket</button></td>
+                            <td><button class="btn btn-secondary" (click)="ticket(cliente)" >Ver ticket</button></td>
                         </tr>                
                     </tbody>
                 </table>
@@ -101,3 +101,5 @@
 {{registroReparacion | json}}
 <br>
 {{reparacionCliente | json}}
+
+{{monto | json}}

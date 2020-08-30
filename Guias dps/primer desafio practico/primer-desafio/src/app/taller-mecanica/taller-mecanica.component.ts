@@ -11,6 +11,7 @@ import { BrowserModule } from "@angular/platform-browser";
 export class TallerMecanicaComponent implements OnInit {
 
   nuevoCliente = true;
+  conta:number=0;
   contador:number = 0;
   registro = [];//array para almacenar clientes
   cliente:any;//objeto para almacenar datos de cliente
@@ -20,6 +21,7 @@ export class TallerMecanicaComponent implements OnInit {
   reparacion:any;
   vehiculo:string;
   costo:number;
+  result: any;
 
   clienteId:number;//propiedad para registrar reparaciones bajo id de cliente
 
@@ -27,12 +29,14 @@ export class TallerMecanicaComponent implements OnInit {
 
   ngOnInit(): void {
     this.nombre='';
+
     this.dui='';
     this.vehiculo='';
     this.costo=null;
     this.nuevoCliente = true;//reset a form para agregar nuevos clientes
   }  
   agregar(){
+    
     let error=false;
     //verificando que dui no este registrado
     for (let i = 0; i < this.registro.length; i++) {
@@ -47,6 +51,7 @@ export class TallerMecanicaComponent implements OnInit {
     //registrando cliente y su primera reparacion
     if(this.nuevoCliente==true && error==false){      
       this.contador++;
+      this.conta = 0;
       this.reparacion = {"clave":this.contador,"vehiculo":this.vehiculo,"costo":this.costo};
       this.cliente = {"id":this.contador,"nombre":this.nombre,"dui":this.dui,"registro":this.registroReparacion.push(this.reparacion)};
       this.registro.push(this.cliente);
@@ -54,10 +59,15 @@ export class TallerMecanicaComponent implements OnInit {
     }
     //registrando reparacion de un cliente en especifico
     if(!this.nuevoCliente && error==false){
-      this.reparacion = {"clave":this.clienteId,"vehiculo":this.vehiculo,"costo":this.costo};
+      this.conta++;
+      this.reparacion = {"clave":this.clienteId,"vehiculo":this.vehiculo,"costo":this.costo,"idrepa":this.conta};
       this.registroReparacion.push(this.reparacion);
       this.ngOnInit();
+      
+
     }
+
+
     
   }
 
@@ -80,4 +90,23 @@ export class TallerMecanicaComponent implements OnInit {
     }
   }
 
-}
+ monto = [];
+  ticket(cliente: any):void{
+    var total:number;
+
+    for (let x = 0 ; x< this.registroReparacion.length; x++){
+      if (this.registroReparacion[x].idrepa == 2) {
+        total =  this.registroReparacion[x].costo - (this.registroReparacion[x].costo * 0.05);
+       this.result={"descon":total};
+       this.monto.push(this.result);
+      }else if(this.registroReparacion[x] != 2) {
+        this.monto.push(0);
+
+      }
+    }
+ 
+  }
+    
+  }
+
+
