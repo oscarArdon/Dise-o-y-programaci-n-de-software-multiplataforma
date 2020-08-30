@@ -81,7 +81,6 @@ export class TallerMecanicaComponent implements OnInit {
 
   reparacionCliente = [];
   verReparaciones(cliente:any):void{
-    let incremento = 0;
     this.reparacionCliente = []
     for (let j = 0; j < this.registroReparacion.length; j++) {
       if(this.registroReparacion[j].clave == cliente.id){
@@ -93,7 +92,7 @@ export class TallerMecanicaComponent implements OnInit {
     }
   }
 
-  monto = [];
+ 
   ticket(reparacion: any):void{
     var total:number;
 
@@ -102,11 +101,15 @@ export class TallerMecanicaComponent implements OnInit {
         total =  reparacion.costo - (reparacion.costo * 0.05);
        //this.result={"descon":total};
        //this.monto.push(this.result);
-        alert("Costo real: "+reparacion.costo+
-        "<br>Costo con descuento"+total);
-      }else if(reparacion.idrepa != 2) {
-        this.monto.push(0);
-        alert("Costo:"+reparacion.costo);
+        alert("Costo real: $"+reparacion.costo+
+        "\nCosto con descuento $"+total);
+      }else if(reparacion.idrepa > 4) {
+        total = reparacion.costo - (reparacion.costo * 0.1);
+        alert("Costo real: $"+reparacion.costo+
+        "\nCosto con descuento: $"+total);
+      } else{
+ 
+        alert("Costo: $"+reparacion.costo);
       }
     //}
   }
