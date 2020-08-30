@@ -66,7 +66,7 @@
                             <td>{{cliente.dui}}</td>
                             <td>                     
                                 <button class="btn btn-secondary" (click)="resetForm(cliente)">Nueva reparación</button>
-                                <button class="ml-1 btn btn-secondary">Ver reparaciones</button>
+                                <button class="ml-1 btn btn-secondary" (click)="verReparaciones(cliente)">Ver reparaciones</button>
                             </td>
                         </tr>                
                     </tbody>
@@ -83,10 +83,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td scope="row"></td>
-                            <td></td>
-                            <td></td>
+                        <tr *ngFor="let reparacion of reparacionCliente">
+                            <td scope="row">{{reparacion.vehiculo}}</td>
+                            <td>{{reparacion.costo}}</td>
+                            <td><button class="btn btn-secondary">Ver ticket</button></td>
                         </tr>                
                     </tbody>
                 </table>
@@ -97,5 +97,7 @@
 </div>
 
 {{registro | json}}
+<br>
 {{registroReparacion | json}}
-
+<br>
+{{reparacionCliente | json}}

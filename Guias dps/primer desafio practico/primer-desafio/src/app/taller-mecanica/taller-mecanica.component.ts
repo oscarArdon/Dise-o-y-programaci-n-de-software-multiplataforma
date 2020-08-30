@@ -69,4 +69,15 @@ export class TallerMecanicaComponent implements OnInit {
     this.clienteId = cliente.id; 
   }
 
+  reparacionCliente = [];
+  verReparaciones(cliente:any):void{
+    this.reparacionCliente = []
+    for (let j = 0; j < this.registroReparacion.length; j++) {
+      if(this.registroReparacion[j].clave == cliente.id){
+        this.reparacionCliente.push(this.registroReparacion[j]);
+      }
+      
+    }
+  }
+
 }
