@@ -52,7 +52,7 @@ export class TallerMecanicaComponent implements OnInit {
     if(this.nuevoCliente==true && error==false){      
       this.contador++;
       this.conta = 0;
-      this.reparacion = {"clave":this.contador,"vehiculo":this.vehiculo,"costo":this.costo};
+      this.reparacion = {"clave":this.contador,"vehiculo":this.vehiculo,"costo":this.costo,"idrepa":0};
       this.cliente = {"id":this.contador,"nombre":this.nombre,"dui":this.dui,"registro":this.registroReparacion.push(this.reparacion)};
       this.registro.push(this.cliente);
       this.ngOnInit();
@@ -60,7 +60,7 @@ export class TallerMecanicaComponent implements OnInit {
     //registrando reparacion de un cliente en especifico
     if(!this.nuevoCliente && error==false){
       this.conta++;
-      this.reparacion = {"clave":this.clienteId,"vehiculo":this.vehiculo,"costo":this.costo,"idrepa":this.conta};
+      this.reparacion = {"clave":this.clienteId,"vehiculo":this.vehiculo,"costo":this.costo,"idrepa":0};
       this.registroReparacion.push(this.reparacion);
       this.ngOnInit();
       
@@ -81,32 +81,36 @@ export class TallerMecanicaComponent implements OnInit {
 
   reparacionCliente = [];
   verReparaciones(cliente:any):void{
+    let incremento = 0;
     this.reparacionCliente = []
     for (let j = 0; j < this.registroReparacion.length; j++) {
       if(this.registroReparacion[j].clave == cliente.id){
         this.reparacionCliente.push(this.registroReparacion[j]);
       }
-      
+    }
+    for (let i = 0; i < this.reparacionCliente.length; i++) {
+      this.reparacionCliente[i].idrepa = i+1;
     }
   }
 
- monto = [];
-  ticket(cliente: any):void{
+  monto = [];
+  ticket(reparacion: any):void{
     var total:number;
 
-    for (let x = 0 ; x< this.registroReparacion.length; x++){
-      if (this.registroReparacion[x].idrepa == 2) {
-        total =  this.registroReparacion[x].costo - (this.registroReparacion[x].costo * 0.05);
-       this.result={"descon":total};
-       this.monto.push(this.result);
-      }else if(this.registroReparacion[x] != 2) {
+    //for (let x = 0 ; x< this.registroReparacion.length; x++){
+      if (reparacion.idrepa == 2) {
+        total =  reparacion.costo - (reparacion.costo * 0.05);
+       //this.result={"descon":total};
+       //this.monto.push(this.result);
+        alert("Costo real: "+reparacion.costo+
+        "<br>Costo con descuento"+total);
+      }else if(reparacion.idrepa != 2) {
         this.monto.push(0);
-
+        alert("Costo:"+reparacion.costo);
       }
-    }
- 
+    //}
   }
     
-  }
+}
 
 
