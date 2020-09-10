@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-md-8 mt-4 mb-5">
+        <h1 class="text-white">Crud angular con PHP/MySQL</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="container">
+                    <h2>Administración de artículos</h2>
+                    <table class="table table-hover table-responsive" *ngIf="hayRegistros(); else sinarticulos">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Proveedor</th>
+                                <th>Fabricante</th>
+                                <th>Borrar</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let art of articulos">
+                                <td scope="row">{{art.codigo}}</td>
+                                <td>{{art.descripcion}}</td>
+                                <td>{{art.precio}}</td>
+                                <td>{{art.proveedor}}</td>
+                                <td>{{art.fabricante}}</td>
+                                <td><button (click)="baja(art.codigo)" class="btn btn-danger">Borrar</button></td>
+                                <td><button (click)="seleccionar(art.codigo)" class="btn btn-warning">Seleccionar</button></td>
+                            </tr>                     
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #sinarticulos>
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <p>No hay artículos.</p>
+                </ng-template>
+                <div>
+                    <form #articuloForm="ngForm">
+                        <div class="form-group">
+                            <input type="text" required name="descripcion" [(ngModel)]="art.descripcion" #desc="ngModel" placeholder="descripción" class="form-control">                    
+                        </div>
+                        <div *ngIf="desc.invalid && (desc.dirty || desc.touched)">
+                            <p *ngIf="desc.errors.required" class="text-danger">Campo requerido</p>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required pattern="^\d{1,6}\.\d{0,2}$" name="precio" [(ngModel)]="art.precio" #prec="ngModel" placeholder="precio" class="form-control">                    
+                        </div>
+                        <div *ngIf="prec.invalid && (prec.dirty || prec.touched)">
+                            <p *ngIf="prec.errors.required" class="text-danger">Campo requerido</p>
+                            <p *ngIf="prec.errors.pattern" class="text-danger">Cumplir con el formato: 00.00</p>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required name="proveedor" [(ngModel)]="art.proveedor" #prov="ngModel" placeholder="proveedor" class="form-control">                    
+                        </div>
+                        <div *ngIf="prov.invalid && (prov.dirty || prov.touched)">
+                            <p *ngIf="prov.errors.required" class="text-danger">Campo requerido</p>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" required name="fabricante" [(ngModel)]="art.fabricante" #fabr="ngModel" placeholder="fabricante" class="form-control">                    
+                        </div>
+                        <div *ngIf="fabr.invalid && (fabr.dirty || fabr.touched)">
+                            <p *ngIf="fabr.errors.required" class="text-danger">Campo requerido</p>
+                        </div>
+                        <button (click)="alta()" [disabled]="!articuloForm.form.valid" *ngIf="art.codigo == 0" class="btn btn-primary btn-space">Agregar</button>
+                        <button (click)="modificacion()" [disabled]="!articuloForm.form.valid" *ngIf="art.codigo !== 0" class="btn btn-warning">Modificar</button>
+                    </form>                                      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<style>
+  .btn-space{
+    margin-right: 20px;
+  }
+</style>
+
+<nav class="navbar navbar-dark">
+  <a class="navbar-brand" href="/"><h1 class="display-4">Primer Crud Angular</h1></a>
+  <i class="fab fa-angular text-white display-4"></i>
+</nav>
+<div class="container">
+  <div class="jumbotron mt-3">
+    <h1 class="display-3">Angular con Bootstrap</h1>
+    <p class="lead">Bootstrap 4 es un framework de CSS que nos facilita y estandariza el desarrollo de sitios web.
+      <br>
+      Se ha implementado pensando que se adapte tanto a las pantallas de equipos de
+      escritorio como a móviles y tablets.
+    </p>
+    <p>Bootstrap 4 ha sido desarrollada y es mantenida por la empresa Twitter y la ha liberado como un producto Open Source.</p> 
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
+      Mostrar
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Información</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <a href="https://getbootstrap.com/">Ingresar al sitio oficial</a><br>
+            <a href="https://tutorialesprogramacionya.com/bootstrap4ya">Tutorial de Bootstrap</a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>      
+  </div>
+  <!--Inicia estructura para el crud-->
+  <div class="row mb-2">
+    <div class="col-md-8 mt-4">
+      <h1 class="text-white">Crud con arreglos</h1>
+      <ul class="list-group">
+        <li *ngFor="let alumno of alumnoArray" class="list-group-item list-group-item-action"
+        (click)="openForEdit(alumno)" [class.active]="alumno == selectedAlumno">
+          <span class="badge badge-primary">{{alumno.id}}</span>
+          - {{alumno.name}}
+          - {{alumno.lastname}}
+          - {{alumno.age}}
+          - {{alumno.direccion}}
+          - ({{alumno.telefono}})
+          - {{alumno.correo}}
+        </li>
+      </ul>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <!--if selectedAlumno.id es cero ? ... else ...-->
+            <h3>{{selectedAlumno.id==0 ? "Agregar Nuevo Alumno" : "Actualizar Alumno"}}</h3>
+          </div>
+          <form #alumnoForm="ngForm">
+            <div class="form-group">            
+              <input type="text" required pattern="^[a-zA-Z\s]*$" #nom="ngModel" name="name" [(ngModel)]="selectedAlumno.name" class="form-control" placeholder="nombre">            
+            </div>
+            <div *ngIf="nom.invalid && (nom.dirty || nom.touched)">
+              <p *ngIf="nom.errors.pattern" class="text-danger">Solo se permiten letras a-z</p>
+              <p *ngIf="nom.errors.required" class="text-danger">Campo requerido</p>            
+            </div>
+            <div class="form-group">            
+              <input type="text" required pattern="^[a-zA-Z\s]*$" #ape="ngModel" name="lastname" [(ngModel)]="selectedAlumno.lastname" class="form-control" placeholder="apellido">            
+            </div>
+            <div *ngIf="ape.invalid && (ape.dirty || ape.touched)">
+              <p *ngIf="ape.errors.pattern" class="text-danger">Solo se permiten letras a-z</p>
+              <p *ngIf="ape.errors.required" class="text-danger">Campo requerido</p>            
+            </div>
+            <div class="form-group">            
+              <input type="number" min="1" required pattern="^[1-9][0-9]*$" #edad="ngModel" name="age" [(ngModel)]="selectedAlumno.age" class="form-control" placeholder="edad">            
+            </div>
+            <div *ngIf="edad.invalid && (edad.dirty || edad.touched)">
+              <p *ngIf="edad.errors.pattern" class="text-danger">El minimo de edad es de 1 año</p> 
+              <p *ngIf="edad.errors.required" class="text-danger">Campo requerido</p>        
+            </div>
+            <div class="form-group">            
+              <input type="text" required #dir="ngModel" name="direccion" [(ngModel)]="selectedAlumno.direccion" class="form-control" placeholder="direccion">            
+            </div>
+            <div *ngIf="dir.invalid && (dir.dirty || dir.touched)">
+              <p *ngIf="dir.errors.required" class="text-danger">Campo requerido</p>
+            </div>
+            <div class="form-group">            
+              <input type="text" required pattern="^2[0-9]{3}(-[0-9]{4})*$" #tel="ngModel" name="telefono" [(ngModel)]="selectedAlumno.telefono" class="form-control" placeholder="telefono">            
+            </div>
+            <div *ngIf="tel.invalid && (tel.dirty || tel.touched)">
+              <p *ngIf="tel.errors.pattern" class="text-danger">Cumplir con el formato: 0000-0000</p> 
+              <p *ngIf="tel.errors.required" class="text-danger">Campo requerido</p>        
+            </div>
+            <div class="form-group">            
+              <input type="text" required pattern="^\w+[\w-\.]*\@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" #email="ngModel" name="correo" [(ngModel)]="selectedAlumno.correo" class="form-control" placeholder="correo">            
+            </div>
+            <div *ngIf="email.invalid && (email.dirty || email.touched)">
+              <p *ngIf="email.errors.pattern" class="text-danger">Correo no valido</p> 
+              <p *ngIf="email.errors.required" class="text-danger">Campo requerido</p>        
+            </div>
+            <button type="button" [disabled]="!alumnoForm.form.valid" (click)="addOrEdit()" class="btn btn-primary btn-space">Guardar</button>
+            <button type="button" [disabled]="!alumnoForm.form.valid" *ngIf="selectedAlumno.id !== 0" (click)="delete()" class="btn btn-danger">Eliminar</button>
+          </form>     
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <img class="mx-auto d-block" width="300" alt="Angular Logo"
+      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciI
+      HZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuO
+      SA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBma
+      WxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzM
+      HoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxM
+      S43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwL
+      jl6IiAvPgogIDwvc3ZnPg==">
+    </div>
+  </div>
+  <app-crud-angular-php></app-crud-angular-php>
+</div>
