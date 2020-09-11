@@ -1,6 +1,5 @@
 <div *ngIf="articulos!=null;else espera">
     <br>
-    <center>
         <h1>Articulos desde servicio php</h1>
         <table border="1">
             <tr>
@@ -11,10 +10,9 @@
                 <td>{{art.descripcion}}</td>
                 <td>{{art.precio}}</td>
             </tr>
-        </table>
-    </center>  
+        </table> 
     <br>
-    <center>
+
         <h1>Articulos desde un servicio en Angular</h1>
         <table border="1">
             <tr>
@@ -26,9 +24,9 @@
                 <td>{{art1.precio}}</td>
             </tr>
         </table>
-    </center>  
+
     <br>
-    <center>
+
         <h1>Articulos de un web service desde el servicio Angular</h1>
         <table border="1">
             <tr>
@@ -40,6 +38,6 @@
                 <td>{{art1.precio}}</td>
             </tr>
         </table>
-    </center> 
+
 </div>
 <ng-template #espera>Esperando datos...</ng-template>

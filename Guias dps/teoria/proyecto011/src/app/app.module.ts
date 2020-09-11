@@ -10,6 +10,7 @@ import { JuegodadosComponent } from './juegodados/juegodados.component';
 import { AcercadeComponent } from './acercade/acercade.component';
 import { DadoComponent } from './dado/dado.component';
 import { HttpArticuloComponent } from './http-articulo/http-articulo.component';
+import { CronometroComponent } from './cronometro/cronometro.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { HttpArticuloComponent } from './http-articulo/http-articulo.component';
     JuegodadosComponent,
     AcercadeComponent,
     DadoComponent,
-    HttpArticuloComponent
+    HttpArticuloComponent,
+    CronometroComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DadoComponent implements OnInit {
 
   //atributo valor usado en juegodados.component.html
+  //es usado como parametro de la componente padre
   @Input() valor:number;
 
   constructor() { }

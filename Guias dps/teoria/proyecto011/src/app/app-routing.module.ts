@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { JuegodadosComponent } from './juegodados/juegodados.component';
 import { AcercadeComponent } from './acercade/acercade.component';
 import { HttpArticuloComponent } from './http-articulo/http-articulo.component';
+import { AppComponent } from './app.component';
+
 
 //declaracion nombre de rutas y el componente
 const routes: Routes = [
@@ -18,6 +20,10 @@ const routes: Routes = [
   {
     path: 'http-articulos',
     component:HttpArticuloComponent
+  },
+  {
+    path: 'cronometro',
+    component:AppComponent
   }
 ];
 
