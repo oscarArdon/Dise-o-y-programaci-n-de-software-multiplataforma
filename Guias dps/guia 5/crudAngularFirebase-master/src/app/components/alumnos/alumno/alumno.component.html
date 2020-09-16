@@ -1,0 +1,45 @@
+<div class="card mt-5">
+    <div class="card-body">
+        <h6 class="text-center">
+            {{alumnoService.selectedAlumno.$key==null ? "Agregar Alumno" : "Actualizar Alumno"}}
+        </h6>
+        <!-- Cuando el evento onSubmit , suceda se va pasar todo el formulario 'productForm' -->
+        <form #alumnoForm="ngForm" (ngSubmit)="onSubmit(alumnoForm)">
+
+            <!-- TO UPDATE -->
+            <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="alumnoService.selectedAlumno.$key">
+
+            <div class="form-group">
+                <input type="text" class="form-control" name="name" required pattern="^[a-zA-Z\s]*$" #name="ngModel"
+                    [(ngModel)]="alumnoService.selectedAlumno.name" placeholder="Agregar alumno" autocomplete="off">
+            </div>
+            <div *ngIf="(name.invalid && (name.touched || name.dirty))">
+                <p *ngIf="name.errors.required" class="text-danger">Campo requerido!</p>
+                <p *ngIf="name.errors.patterns" class="text-danger">Solo se permiten letras a-z</p>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="lastname" required pattern="^[a-zA-Z\s]*$" #lastname="ngModel"
+                    [(ngModel)]="alumnoService.selectedAlumno.lastname" placeholder="Agregar Apellido" autocomplete="off">
+            </div>
+            <div *ngIf="(lastname.invalid && (lastname.touched || lastname.dirty))">
+                <p *ngIf="lastname.errors.required" class="text-danger">Campo requerido!</p>
+                <p *ngIf="lastname.errors.patterns" class="text-danger">Solo se permiten letras a-z</p>
+            </div>
+            <div class="form-group">
+                <input type="number" min="5" required class="form-control" name="age" #age="ngModel"
+                    [(ngModel)]="alumnoService.selectedAlumno.age" placeholder="Agregar edad" autocomplete="off">
+            </div>
+            <div *ngIf="(age.invalid && (age.touched || age.dirty))">
+                <p *ngIf="age.errors.required" class="text-danger">Campo requerido!</p>                
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" [disabled]="!alumnoForm.form.valid" type="submit">
+                    <i class="fas fa-plus-circle"></i> {{alumnoService.selectedAlumno.$key==null ? "Agregar Alumno" : "Actualizar Alumno"}}
+                </button>
+                <button class="btn btn-secondary" type="reset" (click)="resetForm(alumnoForm)">
+                    <i class="fas fa-sync-alt"></i> Reiniciar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
