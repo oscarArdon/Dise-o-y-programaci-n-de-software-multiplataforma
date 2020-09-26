@@ -1,0 +1,51 @@
+<!-- Top navigation -->
+<div class="container-fluid">
+    <nav class="navbar navbar-dark">
+        <a class="navbar-brand" href="/"><h1 class="display-4">Dashboard</h1></a>
+        <i class="fab fa-angular text-white display-4"></i>
+    </nav>
+    <div class="b border-bottom"></div>
+</div>
+<!-- Sidebar navigation -->
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-lg-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-perfil" 
+                role="tab" aria-controls="v-pills-home"><i class="fa fa-user" aria-hidden="true"></i> Mi perfil</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-estudiante" 
+                role="tab" aria-controls="v-pills-profile"><i class="fa fa-address-book" aria-hidden="true"></i> Estudiantes</a>
+                <!-- Llamando API de AuthService para cerrar sesion-->
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-salir" 
+                role="tab" aria-controls="v-pills-messages" (click)="authService.SignOut()"><i class="	fas fa-sign-out-alt"></i> Salir</a>            
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-perfil" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <!-- Show user data when logged in -->
+                    <div class="row mt-5" *ngIf="authService.userData as user">
+                        <div class="col-md-12">
+                            <div class="media">
+                                <img class="align-self-start mr-5 img-thumbnail rounded-circle"
+                                    src="{{(user.photoURL) ? user.photoURL : '/assets/dummy-user.png'}}"
+                                    alt="{{user.displayName}}">
+                                <div class="media-body">
+                                    <h1>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h1>
+                                    <p>User ID: <strong>{{user.uid}}</strong></p>
+                                    <p>Email: <strong>{{user.email}}</strong></p>
+                                    <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-estudiante" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <app-alumnos></app-alumnos>
+                </div>
+                <div class="tab-pane fade" id="v-pills-salir" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                </div>            
+            </div>
+        </div>        
+    </div>
+</div>

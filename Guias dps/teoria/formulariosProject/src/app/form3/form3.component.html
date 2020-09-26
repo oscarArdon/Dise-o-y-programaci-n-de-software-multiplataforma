@@ -1,0 +1,35 @@
+<h1 class="display-4 mt-4 text-white">Ejemplo 3: Formulario reactivo</h1>
+<div class="row">
+    <div class="col-lg-4 mt-5">
+        <form [formGroup]="formularioConversion" (ngSubmit)="submit()">
+            <div class="form-group">
+              <label>Ingrese número decimal:</label>
+              <input type="text" formControlName="numerodecimal" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Convertir a:</label>
+                <input type="radio" formControlName="base" value="octal" class="form-control">Octal
+                <input type="radio" formControlName="base" value="hexadecimal" class="form-control">Hexadecimal
+            </div>
+            <div class="form-group">
+                <label>Elevar a:</label>
+                <select formControlName="potencia">
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" formControlName="largo">Mostrar cantidad de digitos
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Confirmar</button>
+        </form>
+        <div>
+            <p>Conversion: {{conversion}}</p>
+            <p>Potencia: {{potenciaNumero}}</p>
+            <p>Cantidad de digitos: {{cantidad}}</p>
+        </div>
+    </div>
+</div>
+
+

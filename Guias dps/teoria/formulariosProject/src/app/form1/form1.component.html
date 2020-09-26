@@ -1,0 +1,28 @@
+<h1 class="display-4 mt-4 text-white">Ejemplo 1: Formulario reactivo</h1>
+<div class="row offset-2">
+    <div class="col-lg-4 mt-5">
+        <div class="card">            
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Actividad:</label>
+                    <input type="text" class="form-control" [formControl]="actividad">
+                </div>
+                <button type="button" class="btn btn-primary btn-block" (click)="agregar()"><i class="fa fa-plus-circle mr-1" aria-hidden="true"></i>Agregar</button>
+            </div>
+        </div>        
+    </div>
+    <div class="col-lg-6 mt-5">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let acti of lista;let i=index">
+                <span class="badge badge-primary">{{i}}</span>->{{acti}}
+                <button class="btn btn-danger ml-4" (click)="borrar(i)">
+                    <i class="fa fa-trash mr-1" aria-hidden="true"></i> Borrar
+                </button>
+            </li>            
+        </ul> 
+        <button type="button" class="btn btn-danger" (click)="borrarTodas()">
+            <i class="fa fa-trash mr-1" aria-hidden="true"></i>Borrar todo
+        </button>
+    </div>
+</div>
+

@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand navbar-light">
+    <div class="nav navbar-nav">
+        <a class="nav-item nav-link" #rl1="routerLinkActive" routerLink="/form1" routerLinkActive="active" 
+        [ngStyle]="rl1.isActive ? {'color':'white'}:{'color':'black'}">Ejemplo 1</a>
+        <a class="nav-item nav-link" #rl2="routerLinkActive" routerLink="/form2" routerLinkActive="active"
+        [ngStyle]="rl2.isActive ? {'color':'white'}:{'color':'black'}">Ejemplo 2</a>
+        <a class="nav-item nav-link" #rl3="routerLinkActive" routerLink="/form3" routerLinkActive="active"
+        [ngStyle]="rl3.isActive ? {'color':'white'}:{'color':'black'}">Ejemplo 3</a>
+        <a class="nav-item nav-link" #rl4="routerLinkActive" routerLink="/form4" routerLinkActive="active"
+        [ngStyle]="rl4.isActive ? {'color':'white'}:{'color':'black'}">Ejemplo 4</a>
+        <a class="nav-item nav-link" #rl5="routerLinkActive" routerLink="/form5" routerLinkActive="active"
+        [ngStyle]="rl5.isActive ? {'color':'white'}:{'color':'black'}">Ejemplo 5</a>
+        <a class="nav-item nav-link" #rl6="routerLinkActive" routerLink="/form6" routerLinkActive="active"
+        [ngStyle]="rl6.isActive ? {'color':'white'}:{'color':'black'}">Ejemplo 6</a>
+    </div>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

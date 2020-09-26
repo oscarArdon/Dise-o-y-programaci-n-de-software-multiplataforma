@@ -1,0 +1,41 @@
+<h1 class="display-4 mt-4 text-white">Ejemplo 5: Validacion en formulario reactivo</h1>
+<div class="row">
+    <div class="col-lg-4 mt-5">
+        <form [formGroup]="formularioContacto" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input type="text" class="form-control" formControlName="nombre" required placeholder="">              
+                <span *ngIf="this.formularioContacto.get('nombre').errors?.required" class="text-danger">
+                    (El nombre no puede quedar vacio)
+                </span>
+                <span *ngIf="this.formularioContacto.get('nombre').errors?.minlength" class="text-danger">
+                    (Debe tener como mínimo 10 caracteres)
+                </span>
+            </div>
+            <div class="form-group">
+                <label>Mail:</label>
+                <input type="text" class="form-control" formControlName="mail" required placeholder="">
+                <span *ngIf="this.formularioContacto.get('mail').errors?.required" class="text-danger">
+                    (El mail no puede quedar vacio)
+                </span>
+                <span *ngIf="this.formularioContacto.get('mail').errors?.email" class="text-danger">
+                    (El mail no es valido)
+                </span>
+            </div>
+            <div class="form-group">
+                <label>Mensaje:</label>
+                <textarea cols="70" rows="10" formControlName="mensaje"></textarea>
+                <span *ngIf="this.formularioContacto.get('mensaje').errors?.required">
+                    (El mensaje no puede quedar vacio)
+                </span>
+                <span *ngIf="this.formularioContacto.get('mensaje').errors?.maxlength">
+                    (Debe tener como máximo 500 caracteres)
+                </span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Confirmar</button>
+        </form>
+        <div>
+            {{resultado}}
+        </div>
+    </div>
+</div>
