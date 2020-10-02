@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand">Taller mecánico</a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/clientes" routerLinkActive="active">Clientes<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/reparaciones">Reparaciones</a>
+            </li>
+            <li class="nav-item dropdown my-2 my-lg-0">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle" aria-hidden="true"></i> {{auth.userData.displayName}}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownId">
+                    <a class="dropdown-item"><i class="material-icons align-middle mr-2">&#xe0e1;</i>{{auth.userData.email}}</a>
+                    <a class="dropdown-item" role="button" (click)="auth.SignOut()"><i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión</a>
+                </div>
+            </li>
+        </ul>
+        <!---->
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-lg-4 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="display-4">{{(cliente.id != 0) ? 'Editar cliente' : 'Agregar cliente'}}</h1>
+                </div>                
+                <div class="card-body">
+                    <form #clienteForm="ngForm">
+                        <div class="form-group">
+                          <label for="nombres">Nombres:</label>
+                          <input type="text" [(ngModel)]="cliente.nombres" #nom="ngModel" required pattern="^[a-zA-Z\s]*$" name="nombres" class="form-control" placeholder="Nombres">                          
+                          <div *ngIf="nom.invalid && (nom.dirty || nom.touched)">
+                            <p *ngIf="nom.errors.required" class="text-danger">Campo requerido!</p>
+                            <p *ngIf="nom.errors.pattern" class="text-danger">Solo se permiten letras a-z</p>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidos">Apellidos:</label>
+                            <input type="text" [(ngModel)]="cliente.apellidos" #ape="ngModel" required pattern="^[a-zA-Z\s]*$" name="apellidos" class="form-control" placeholder="Apellidos">                          
+                            <div *ngIf="ape.invalid && (ape.dirty || ape.touched)">
+                                <p *ngIf="ape.errors.required" class="text-danger">Campo requerido!</p>
+                                <p *ngIf="ape.errors.pattern" class="text-danger">Solo se permiten letras a-z</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dui">DUI:</label>
+                            <input type="text" [(ngModel)]="cliente.dui" #du="ngModel" required pattern="^\d{8}-\d{1}$" name="dui" class="form-control" placeholder="DUI">                          
+                            <div *ngIf="du.invalid && (du.dirty || du.touched)">
+                                <p *ngIf="du.errors.required" class="text-danger">Campo requerido!</p>
+                                <p *ngIf="du.errors.pattern" class="text-danger">Formato requerido: 00000000-0</p>
+                            </div>
+                        </div>
+                        <button type="button" [disabled]="!clienteForm.form.valid" *ngIf="cliente.id == 0" (click)="insertar()" class="btn btn-primary btn-lg btn-block">Agregar</button>
+                        <button type="button" [disabled]="!clienteForm.form.valid" *ngIf="cliente.id != 0" (click)="modificar()"  class="btn btn-primary btn-lg btn-block">Editar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 mx-auto">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" (keyup)="onKey($event)" type="text" placeholder="Search">
+                <select (change)="onChange($event.target.value)" class="form-control mr-sm-2">
+                    <option selected disabled>Buscar por...</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="apellido">Apellido</option>
+                    <option value="dui">Dui</option>
+                </select>
+                <button ng-model="searchText" class="btn btn-outline-dark my-2 my-sm-0" type="button">Buscar</button>
+            </form>   
+            <table class="table table-striped mt-1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>DUI</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cli of clientes">
+                        <td scope="row">{{cli.id}}</td>
+                        <td>{{cli.nombres}}</td>
+                        <td>{{cli.apellidos}}</td>
+                        <td>{{cli.dui}}</td>
+                        <td>
+                            <button class="btn btn-info">Agregar reparacion</button>
+                            <button (click)="eliminar(cli.id)" class="btn btn-danger" title="Eliminar usuario"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button (click)="seleccionarCliente(cli.id)" class="btn btn-primary" title="Editar usuario"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
