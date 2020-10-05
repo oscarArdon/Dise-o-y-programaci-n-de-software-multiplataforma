@@ -21,13 +21,15 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 //importando modulo para peticiones http
 import { HttpClientModule } from '@angular/common/http';
+import { ListReparacionesComponent } from './list-reparaciones/list-reparaciones.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientesComponent,
     ReparacionesComponent,
-    LoginComponent
+    LoginComponent,
+    ListReparacionesComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,7 +10,7 @@
                 <a class="nav-link" routerLink="/clientes" routerLinkActive="active">Clientes<span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/reparaciones">Reparaciones</a>
+                <a class="nav-link" routerLink="/list-reparaciones">Reparaciones</a>
             </li>
             <li class="nav-item dropdown my-2 my-lg-0">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle" aria-hidden="true"></i> {{auth.userData.displayName}}</a>
@@ -91,7 +91,7 @@
                         <td>{{cli.apellidos}}</td>
                         <td>{{cli.dui}}</td>
                         <td>
-                            <button class="btn btn-info">Agregar reparacion</button>
+                            <button class="btn btn-info" routerLink="/reparaciones/{{cli.id}}">Agregar reparacion</button>
                             <button (click)="eliminar(cli.id)" class="btn btn-danger" title="Eliminar usuario"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             <button (click)="seleccionarCliente(cli.id)" class="btn btn-primary" title="Editar usuario"><i class="fas fa-edit"></i></button>
                         </td>

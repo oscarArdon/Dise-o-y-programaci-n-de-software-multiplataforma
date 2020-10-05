@@ -5,7 +5,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ReparacionesComponent } from './reparaciones/reparaciones.component';
 import { LoginComponent } from './login/login.component'; 
 import { AuthGuard } from './guard/auth.guard';
-
+import { ListReparacionesComponent } from './list-reparaciones/list-reparaciones.component'; 
 
 const routes: Routes = [
   //pathMatch significa que toda la url debe coincidir completa
@@ -13,6 +13,8 @@ const routes: Routes = [
   {path:'sign-in', component:LoginComponent},
   {path:'clientes', component:ClientesComponent, canActivate:[AuthGuard]},
   {path:'reparaciones', component:ReparacionesComponent, canActivate:[AuthGuard]},
+  {path:'reparaciones/:id',component:ReparacionesComponent,canActivate:[AuthGuard]},
+  {path:'list-reparaciones',component:ListReparacionesComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({

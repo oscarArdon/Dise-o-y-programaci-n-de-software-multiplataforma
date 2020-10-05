@@ -7,10 +7,10 @@
     <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-                <a class="nav-link" routerLink="/clientes">Clientes<span class="sr-only"></span></a>
+                <a class="nav-link" routerLink="/clientes" routerLinkActive="active">Clientes<span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/reparaciones" routerLinkActive="active">Reparaciones</a>
+                <a class="nav-link" routerLink="/list-reparaciones">Reparaciones</a>
             </li>
             <li class="nav-item dropdown my-2 my-lg-0">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle" aria-hidden="true"></i> {{auth.userData.displayName}}</a>
@@ -20,11 +20,37 @@
                 </div>
             </li>
         </ul>
-        <!--<form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>-->
+        <!---->
     </div>
 </nav>
 <!-- FIN NAV *******************-->
+<br>
+<div class="col-lg-5 mx-auto">
+    <div class="card">       
+        <div class="card-header">
+            <h1 class="display-4">Agregar reparacion</h1>
+        </div>            
+        <div class="card-body">
+            <form #reparacionForm="ngForm">
+                <div class="form-group">
+                    <label for="dui">Modelo de auto:</label>
+                    <input type="text" [(ngModel)]="reparacion.vehiculo" #mode="ngModel" autocomplete="off"  required pattern="^[a-zA-Z\s]*$" name="Automovil" class="form-control" placeholder="Automovil">                          
+                    <div *ngIf="mode.invalid && (mode.dirty || mode.touched)">
+                        <p *ngIf="mode.errors.required" class="text-danger">Campo requerido!</p>
+                        <p *ngIf="mode.errors.pattern" class="text-danger">Solo se permiten letras a-z</p>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label for="dui">Costo:</label>
+                    <input type="text" [(ngModel)]="reparacion.costo" #costoC="ngModel" autocomplete="off" required pattern="^\d{1,6}\.\d{0,2}$" name="costo" class="form-control" placeholder="$00.00">                          
+                    <div *ngIf="(costoC.invalid && (costoC.dirty || costoC.touched))">
+                        <p class="text-danger" *ngIf="costoC.errors.pattern">Costo con formato incorrecto</p>
+                        <p class="text-danger" *ngIf="costoC.errors.required">Campo requerido</p>                    
+                    </div>
+                </div>
+                <button type="button" (click)="insertar()"  class="btn btn-primary btn-lg btn-block">Agregar</button>
 
+            </form>
+        </div>
+    </div>
+</div>

@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class ClientesService {
 
   //url donde se encuentran los archivos php
-  END_POINT = 'https://server-datos.000webhostapp.com/recursos-desafio2';
+  END_POINT = 'https://discomfortable-toe.000webhostapp.com/recursos/';
   //inyectando atributo de tipo HttpClient en la clase
   constructor(private http:HttpClient) { }
 
@@ -22,8 +22,8 @@ export class ClientesService {
   }
 
   //insertando cliente
-  insert(cliente){
-    return this.http.post(this.END_POINT+"/insert_cliente.php",JSON.stringify(cliente));
+  insert(reparacion){
+    return this.http.post(this.END_POINT+"/insert_cliente.php",JSON.stringify(reparacion));
   }
 
   //eliminando cliente
