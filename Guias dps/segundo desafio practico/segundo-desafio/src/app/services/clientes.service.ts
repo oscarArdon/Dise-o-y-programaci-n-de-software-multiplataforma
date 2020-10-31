@@ -12,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class ClientesService {
 
   //url donde se encuentran los archivos php
-  END_POINT = 'https://discomfortable-toe.000webhostapp.com/recursos/';
+  END_POINT = 'https://mechaworkshopp.000webhostapp.com/recursos/';
   //inyectando atributo de tipo HttpClient en la clase
   constructor(private http:HttpClient) { }
 
