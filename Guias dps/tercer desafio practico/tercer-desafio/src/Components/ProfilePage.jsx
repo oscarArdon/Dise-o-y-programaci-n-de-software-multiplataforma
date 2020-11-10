@@ -1,14 +1,44 @@
-import React, { useContext } from "react";
+import React, { useContext,useState, useEffect } from "react";
 import { UserContext } from "../providers/UserProvider";
 import { auth } from "../firebase";
+import axios from 'axios';
 import { Router, Link } from "@reach/router";
 
 import Info from "./Home/Info"
 import Contacto from "./Home/Contacto"
 import Help from "./Home/Help"
 import User from "./Home/User"
+import {useForm} from 'react-hook-form'
 
 const ProfilePage = () => {
+  //recursos con archivos php
+  const baseUrl="https://server-datos.000webhostapp.com/apiPhpDesafio3/";
+  //propiedad para todos los registros de la tabla
+  const [data, setData]=useState([]);
+  const {register, handleSubmit, errors} = useForm();
+  //propiedad para poner datos de una nueva ganancia o ganancia seleccionada para editar
+  const [gananciaSeleccionada, setgananciaSeleccionada]=useState({
+    id: '',
+    nombre: '',
+    monto: '',
+    empleados: ''
+  });
+  function onSubmit(data){
+    console.log("data:"+data);
+  }
+  //funcion para asignar datos de alumno a prop "gananciaSeleccionada" en cada evento onChange
+  const handleChange=e=>{
+    //asociando name y value del form durante onchange
+    const {name, value}=e.target;
+    //asignando valores ingresados en el form a prop alumnoSeleccionado
+    setgananciaSeleccionada((prevState)=>({...prevState, [name]: value}))
+    console.log(gananciaSeleccionada);
+  }
+  const handleChangeSelect=e=>{
+    //asociando name y value del form durante onchange
+    //alert(e.target.value);
+    gananciaSeleccionada.nombre = e.target.value;
+  }
 
   // Asigna un user para leer el contexto del tema actual.
   // React encontrará el Provider superior más cercano y usará su valor.
@@ -20,6 +50,27 @@ const ProfilePage = () => {
   const signOut = () => {
     auth.signOut();
   };
+
+  //funcion para realizar insercion de registros
+  const peticionPost=async()=>{
+    //creacion de formulario "virtual"
+    var f = new FormData();
+    //añadiendo datos del alumno al formulario con datos del prop alumnoSeleccionado
+    f.append("nombre", gananciaSeleccionada.nombre);
+    f.append("monto", gananciaSeleccionada.monto);
+    f.append("empleados", gananciaSeleccionada.empleados);
+    //indicando el tipo de peticion http
+    f.append("METHOD", "POST");
+    //pasando como param el formulario
+    await axios.post(baseUrl, f)
+    .then(response=>{
+      //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+      //al resto de registros mostrados en la vista
+      setData(data.concat(response.data)); 
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
 
   return (
 
@@ -66,25 +117,29 @@ const ProfilePage = () => {
             <div class="card">
               <div class="card-body">
               <h1 class="display-5">Ganancias</h1>
-                <form >
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div class="form-group">
                     <label for="nombres">Nombre de la empresa</label>
-                    <input type="text" autoComplete="off" required pattern="^[a-zA-Z\s]*$" name="nombres" class="form-control" placeholder="Nombre">
-                    </input>
+                    <select ref={register} class="form-control" onChange={handleChangeSelect}>
+                      <option value="sucursalA">Sucursal A</option>
+                      <option value="sucursalB">Sucursal B</option>
+                      <option value="sucursalC">Sucursal C</option>
+                    </select>                                      
                   </div>
-
+                  
                   <div class="form-group">
                     <label for="apellidos">Monto de ganancia</label>
-                    <input type="text" autoComplete="off" required pattern="^[a-zA-Z\s]*$" name="apellidos" class="form-control" placeholder="$00.00">
+                    <input ref={register({required:true, pattern:/[1,9]\d{3,}\.\d{2}$/i})} style={{...StyleSheet.input, borderColor:errors.monto && "red"}} type="number" autoComplete="off" name="monto" class="form-control" onChange={handleChange} placeholder="$00.00">
                     </input>
+                    {errors.monto && <span className="text-danger">Campo requerido, ingresar ganancias mayores a $1000.00</span>}
                   </div>
                   <div class="form-group">
                     <label for="dui">Empleados</label>
-                    <input type="number" autoComplete="off" required pattern="^\d{8}-\d{1}$" name="dui" class="form-control" min="0" >
+                    <input ref={register({required:true,pattern:/\b[1-9]\d+\b/i})} style={{...StyleSheet.input, borderColor:errors.empleados && "red"}} type="number" autoComplete="off" name="empleados" class="form-control" onChange={handleChange} min="0" >
                     </input>
+                    {errors.empleados && <span className="text-danger">Campo requerido, la cantidad de empleados debe ser mayor a 10</span>}
                   </div>
-                  <button type="button" class="btn btn-success  ">Agregar</button>
-             
+                  <button type="submit" id="agregar" class="btn btn-success" onClick={()=>peticionPost()}>Agregar</button>             
                 </form>
               </div>
             </div>
