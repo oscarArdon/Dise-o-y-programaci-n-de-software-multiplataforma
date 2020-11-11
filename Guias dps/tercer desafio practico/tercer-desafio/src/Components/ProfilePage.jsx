@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const baseUrl="https://server-datos.000webhostapp.com/apiPhpDesafio3/";
   //propiedad para todos los registros de la tabla
   const [data, setData]=useState([]);
-  const {register, handleSubmit, errors} = useForm();
+  const {register, handleSubmit, errors, formState} = useForm({mode:"onChange"});
   //propiedad para poner datos de una nueva ganancia o ganancia seleccionada para editar
   const [gananciaSeleccionada, setgananciaSeleccionada]=useState({
     id: '',
@@ -129,17 +129,17 @@ const ProfilePage = () => {
                   
                   <div class="form-group">
                     <label for="apellidos">Monto de ganancia</label>
-                    <input ref={register({required:true, pattern:/[1,9]\d{3,}\.\d{2}$/i})} style={{...StyleSheet.input, borderColor:errors.monto && "red"}} type="number" autoComplete="off" name="monto" class="form-control" onChange={handleChange} placeholder="$00.00">
+                    <input ref={register({required:true, pattern:/^[1-9]\d{3,}\.\d{2}$/i})} style={{...StyleSheet.input, borderColor:errors.monto && "red"}} type="number" autoComplete="off" name="monto" class="form-control" onChange={handleChange} placeholder="$00.00">
                     </input>
                     {errors.monto && <span className="text-danger">Campo requerido, ingresar ganancias mayores a $1000.00</span>}
                   </div>
                   <div class="form-group">
                     <label for="dui">Empleados</label>
-                    <input ref={register({required:true,pattern:/\b[1-9]\d+\b/i})} style={{...StyleSheet.input, borderColor:errors.empleados && "red"}} type="number" autoComplete="off" name="empleados" class="form-control" onChange={handleChange} min="0" >
+                    <input ref={register({required:true,pattern:/^\b[1-9]\d+\b/i})} style={{...StyleSheet.input, borderColor:errors.empleados && "red"}} type="number" autoComplete="off" name="empleados" class="form-control" onChange={handleChange} min="0" >
                     </input>
                     {errors.empleados && <span className="text-danger">Campo requerido, la cantidad de empleados debe ser mayor a 10</span>}
                   </div>
-                  <button type="submit" id="agregar" class="btn btn-success" onClick={()=>peticionPost()}>Agregar</button>             
+                  <button disabled={!formState.isValid} type="submit" id="agregar" class="btn btn-success" onClick={()=>peticionPost()}>Agregar</button>             
                 </form>
               </div>
             </div>
