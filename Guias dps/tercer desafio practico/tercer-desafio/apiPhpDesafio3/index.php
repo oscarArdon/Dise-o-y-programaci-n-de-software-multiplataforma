@@ -7,11 +7,11 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 if($_SERVER['REQUEST_METHOD']=='GET'){
     if(isset($_GET['id'])){
-        $query="select * from ganancia where id=".$_GET['id'];
+        $query="select * from ganancia where id=".$_GET['id'];        
         $resultado=metodoGet($query);
         echo json_encode($resultado->fetch(PDO::FETCH_ASSOC));
     }else{
-        $query="select * from ganancia";
+        $query="select * from ganancia";        
         $resultado=metodoGet($query);
         echo json_encode($resultado->fetchAll()); 
     }

@@ -1,9 +1,9 @@
 <?php
 $pdo=null;
 $host="localhost";
-$user="id14780908_root2";
-$password="au2Fh[J<HV&/g|R~";
-$bd="id14780908_desafio2";
+$user="root";
+$password="";
+$bd="tienda";
 
 function conectar(){
     try{

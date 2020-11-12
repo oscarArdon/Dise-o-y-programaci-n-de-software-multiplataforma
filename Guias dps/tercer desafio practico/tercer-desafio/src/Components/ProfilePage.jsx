@@ -9,13 +9,18 @@ import Contacto from "./Home/Contacto"
 import Help from "./Home/Help"
 import User from "./Home/User"
 import {useForm} from 'react-hook-form'
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.min.css';
+import 'alertifyjs/build/css/themes/default.min.css';
+import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 
 const ProfilePage = () => {
   //recursos con archivos php
-  const baseUrl="https://server-datos.000webhostapp.com/apiPhpDesafio3/";
+  const baseUrl="http://localhost/apiPhpDesafio3/";
   //propiedad para todos los registros de la tabla
-  const [data, setData]=useState([]);
-  const {register, handleSubmit, errors, formState} = useForm({mode:"onChange"});
+  const [data, setData]=useState([]);//variable donde se guarda temporalmente los datos que se pidan con GET
+  const [data2, setData2]=useState([]);//variable donde se guarda temporalmente los datos que se pidan con GET
+  const {register, handleSubmit, errors, formState,reset} = useForm({mode:"onChange"});
   //propiedad para poner datos de una nueva ganancia o ganancia seleccionada para editar
   const [gananciaSeleccionada, setgananciaSeleccionada]=useState({
     id: '',
@@ -23,9 +28,20 @@ const ProfilePage = () => {
     monto: '',
     empleados: ''
   });
-  function onSubmit(data){
+  const [modalEditar, setModalEditar]= useState(false);//constante booleana que ayuda a saber cuando mostrar el modal de editar
+  const [modalEliminar, setModalEliminar]= useState(false);//constante booleana que ayuda a saber cuando mostrar el modal de eliminar
+  
+  function onSubmit(data){    
     console.log("data:"+data);
   }
+  const abrirCerrarModalEditar=()=>{//este metodo cambia el valor de la constante booleana
+    setModalEditar(!modalEditar);
+  }
+  
+  const abrirCerrarModalEliminar=()=>{//este metodo cambia el valor de la constante booleana
+    setModalEliminar(!modalEliminar);
+  }
+
   //funcion para asignar datos de alumno a prop "gananciaSeleccionada" en cada evento onChange
   const handleChange=e=>{
     //asociando name y value del form durante onchange
@@ -66,19 +82,68 @@ const ProfilePage = () => {
     .then(response=>{
       //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
       //al resto de registros mostrados en la vista
-      setData(data.concat(response.data)); 
+      setData(data.concat(response.data));        
+      alertify.alert('Datos guardados');
+      peticionGet1(); //peticion de primeros registros filtrados          
     }).catch(error=>{
       console.log(error);
     })
   }
 
-  return (
+  //Obtiene los registros con un comentario de felicitacion, pero solo los que tienen monto mayor a 30000
+  const peticionGet1 = async()=>{
+    await axios.get(baseUrl+'mostrarSucuConMsg.php',{params: {id: 1}})
+    .then(response=>{
+      setData(response.data); 
+      peticionGet2();//Justo cuando termina este metodo se hace otra peticion get con otro filtro para el monto
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
+  //Obtiene los registros con un comentario de felicitacion, pero solo los que tienen monto entre 1000 y 29999
+  const peticionGet2 = async()=>{
+    await axios.get(baseUrl+'mostrarSucuConMsg.php')
+    .then(response=>{
+      setData2(response.data);      
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
+  
+  //Metodo para eliminar el registro seleccionado
+  const peticionDelete=async()=>{
+    var f = new FormData();
+    f.append("METHOD", "DELETE");
+    await axios.post(baseUrl, f, {params: {id: gananciaSeleccionada.id}})
+    .then(response=>{
+      setData(data.filter(alumno=>alumno.id!==gananciaSeleccionada.id));
+      abrirCerrarModalEliminar();
+      alertify.alert('Sucursal eliminada');
+      peticionGet1();
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
 
-    <div>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></link>
+  //carga los datos del registro seleccionado con setgananciaSeleccionada
+  const seleccionarGanancia=(ganancia, caso)=>{
+    setgananciaSeleccionada(ganancia);
+
+    (caso==="Editar")?
+    abrirCerrarModalEditar()://si el "caso" que envian es igual a Editar
+    abrirCerrarModalEliminar()
+  }
+
+  useEffect(()=>{//cuando inicia el modulo ejecuta el 1º metodo get e inmediatamente despues inicia el otro metodo get (dentro de peticionGet1)
+    peticionGet1();
+  },[])
+
+  return (
+    <div>      
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></link>      
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>            
       <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
         <div class="flex items-center flex-shrink-0 text-white mr-6">
 
@@ -91,11 +156,11 @@ const ProfilePage = () => {
         </div>
         <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <div class="text-sm lg:flex-grow">
-            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              Docs
+            <a  href="#" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+              Registros
       </a>
-            <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-              Examples
+            <a  href="#" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+              Formulario
       </a>
             <a class="font-semibold text-l tracking-tight text-teal-200 hover:text-white mr-4">
               User : {displayName}
@@ -110,44 +175,101 @@ const ProfilePage = () => {
           </div>
         </div>
       </nav>
-
+      
       <div class="container-fluid">
-        <div class="row mt-5">
-          <div class="col-lg-6 mx-auto">
-            <div class="card">
-              <div class="card-body">
-              <h1 class="display-5">Ganancias</h1>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div class="form-group">
-                    <label for="nombres">Nombre de la empresa</label>
-                    <select ref={register} class="form-control" onChange={handleChangeSelect}>
-                      <option value="sucursalA">Sucursal A</option>
-                      <option value="sucursalB">Sucursal B</option>
-                      <option value="sucursalC">Sucursal C</option>
-                    </select>                                      
-                  </div>
-                  
-                  <div class="form-group">
-                    <label for="apellidos">Monto de ganancia</label>
-                    <input ref={register({required:true, pattern:/^[1-9]\d{3,}\.\d{2}$/i})} style={{...StyleSheet.input, borderColor:errors.monto && "red"}} type="number" autoComplete="off" name="monto" class="form-control" onChange={handleChange} placeholder="$00.00">
-                    </input>
-                    {errors.monto && <span className="text-danger">Campo requerido, ingresar ganancias mayores a $1000.00</span>}
-                  </div>
-                  <div class="form-group">
-                    <label for="dui">Empleados</label>
-                    <input ref={register({required:true,pattern:/^\b[1-9]\d+\b/i})} style={{...StyleSheet.input, borderColor:errors.empleados && "red"}} type="number" autoComplete="off" name="empleados" class="form-control" onChange={handleChange} min="0" >
-                    </input>
-                    {errors.empleados && <span className="text-danger">Campo requerido, la cantidad de empleados debe ser mayor a 10</span>}
-                  </div>
-                  <button disabled={!formState.isValid} type="submit" id="agregar" class="btn btn-success" onClick={()=>peticionPost()}>Agregar</button>             
-                </form>
-              </div>
+      <div class="row mt-5">
+        <div class="col-lg-6 mx-auto">
+          <div class="card">
+            <div class="card-body">
+            <h1 class="display-5">Ganancias</h1>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div class="form-group">
+                  <label for="nombre">Nombre de la empresa</label>
+                  <select ref={register} class="form-control" onChange={handleChangeSelect} name="nombre">
+                    <option selected value="sucursalA">Sucursal A</option>
+                    <option value="sucursalB">Sucursal B</option>
+                    <option value="sucursalC">Sucursal C</option>
+                  </select>                                      
+                </div>
+                
+                <div class="form-group">
+                  <label for="apellidos">Monto de ganancia</label>
+                  <input ref={register({required:true, pattern:/^[1-9]\d{3,}\.\d{2}$/i})} style={{...StyleSheet.input, borderColor:errors.monto && "red"}} type="number" autoComplete="off" name="monto" class="form-control" onChange={handleChange} placeholder="$00.00">
+                  </input>                    
+                  {errors.monto?.type === "required" && <span className="text-danger">Campo requerido</span>}
+                  {errors.monto?.type === "pattern" && <span className="text-danger">Ingresar ganancias mayores a $1000.00 y no puede ser negativo</span>}
+                </div>
+                <div class="form-group">
+                  <label for="dui">Empleados</label>
+                  <input ref={register({required:true,pattern:/^\b[1-9]\d+\b/i})} style={{...StyleSheet.input, borderColor:errors.empleados && "red"}} type="number" autoComplete="off" name="empleados" class="form-control" onChange={handleChange} min="0" >
+                  </input>                    
+                  {errors.empleados?.type === "required" && <span className="text-danger">Campo requerido</span>}
+                  {errors.empleados?.type === "pattern" && <span className="text-danger">La cantidad de empleados debe ser mayor a 10 y no puede ser negativo</span>}
+                </div>
+                <button disabled={!formState.isValid} type="submit" id="agregar" class="btn btn-success" onClick={()=>peticionPost()}>Agregar</button>             
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      </div>                
     </div>
-
+    <div className="container">
+          <h3>Sucursales que obtienen ganancias entre $1,000 y $25,000 son:</h3>
+          <div class="row mt-4">        
+              {data2.map(sucursal=>(
+                   <div className="col-4">
+                        <div class="card text-center" key={sucursal.id}>
+                              <h4 class="card-header">
+                                {sucursal.nombre}
+                              </h4>
+                              <div class="card-body">
+                                <h5 class="card-title">Monto: {sucursal.monto}</h5>
+                                  <p class="card-text">Nº Empleados: {sucursal.empleados}</p>
+                                  <button class="btn btn-primary" onClick={()=>seleccionarGanancia(sucursal, "Editar")}>Editar</button> 
+                                    <button className="btn btn-danger" onClick={()=>seleccionarGanancia(sucursal, "Eliminar")}>Eliminar</button>
+                              </div>
+                              <div class="card-footer font-weight-bold text-success">
+                                {sucursal.coment}
+                              </div>
+                        </div>
+                    </div> 
+      ))}          
+    </div>
+    <br/>
+    <h3>Sucursales que obtienen ganancias mayores o iguales a $30,000 son:</h3>
+    <div class="row mt-4">        
+      {data.map(sucursal=>(
+             <div className="col-4">
+                  <div class="card text-center" key={sucursal.id}>
+                       <h4 class="card-header">
+                         {sucursal.nombre}
+                       </h4>
+                       <div class="card-body">
+                         <h5 class="card-title">Monto: {sucursal.monto}</h5>
+                           <p class="card-text">Nº Empleados: {sucursal.empleados}</p>
+                           <button className="btn btn-primary" onClick={()=>seleccionarGanancia(sucursal, "Editar")}>Editar</button> 
+                            <button className="btn btn-danger" onClick={()=>seleccionarGanancia(sucursal, "Eliminar")}>Eliminar</button>
+                       </div>
+                       <div class="card-footer font-weight-bold text-success">
+                         {sucursal.coment}
+                       </div>
+                     </div>
+             </div>
+      ))}          
+    </div>
+  </div> 
+      <hr/>
+      <Modal isOpen={modalEliminar}>
+        <ModalHeader>Eliminar sucursal</ModalHeader>
+        <ModalBody>
+        ¿Estás seguro que deseas eliminar la {gananciaSeleccionada && gananciaSeleccionada.nombre}?
+        </ModalBody>
+       <ModalFooter>
+         <button className="btn btn-danger" onClick={()=>peticionDelete()}>Sí</button>
+         <button className="btn btn-secundary" onClick={()=>abrirCerrarModalEliminar()}>No</button>
+       </ModalFooter>
+      </Modal>
+    </div>    
   )
 };
 
