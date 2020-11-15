@@ -69,9 +69,135 @@ const ProfilePage = () => {
 
   //funcion para realizar insercion de registros
   const peticionPost=async()=>{
-    //creacion de formulario "virtual"
+
+
+  
     var f = new FormData();
+    if(parseInt(gananciaSeleccionada.empleados) >= 21 )
+    {
+  
+ 
+     
+              //creacion de formulario "virtual"
+              switch(gananciaSeleccionada.nombre)
+              {
+                case "sucursalA":
+                  alertify.alert('Datos guardados1');
+                  //añadiendo datos del alumno al formulario con datos del prop alumnoSeleccionado
+                  f.append("nombre", "sucursalB");
+                  f.append("monto", gananciaSeleccionada.monto);
+                  f.append("empleados", 1);
+                  //indicando el tipo de peticion http
+                  f.append("METHOD", "POST");
+                  //pasando como param el formulario
+                  await axios.post(baseUrl, f)
+                  .then(response=>{
+                    //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+                    //al resto de registros mostrados en la vista
+                    setData(data.concat(response.data));        
+                   
+                    //peticionGet1(); //peticion de primeros registros filtrados          
+                  }).catch(error=>{
+                    console.log(error);
+                  })
+                  f.append("nombre", "sucursalC");
+                  await axios.post(baseUrl, f)
+                  .then(response=>{
+                    //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+                    //al resto de registros mostrados en la vista
+                    setData(data.concat(response.data));        
+                   
+                   // peticionGet1(); //peticion de primeros registros filtrados          
+                  }).catch(error=>{
+                    console.log(error);
+                  })
+                         break;
+                case "sucursalB":
+                  
+                  //añadiendo datos del alumno al formulario con datos del prop alumnoSeleccionado
+                  f.append("nombre", "sucursalA");
+                  f.append("monto", gananciaSeleccionada.monto);
+                  f.append("empleados", 1);
+                  //indicando el tipo de peticion http
+                  f.append("METHOD", "POST");
+                  //pasando como param el formulario
+                  await axios.post(baseUrl, f)
+                  .then(response=>{
+                    //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+                    //al resto de registros mostrados en la vista
+                    setData(data.concat(response.data));        
+                   
+                    peticionGet1(); //peticion de primeros registros filtrados          
+                  }).catch(error=>{
+                    console.log(error);
+                  })
+                  f.append("nombre", "sucursalC");
+                  await axios.post(baseUrl, f)
+                  .then(response=>{
+                    //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+                    //al resto de registros mostrados en la vista
+                    setData(data.concat(response.data));        
+
+                    peticionGet1(); //peticion de primeros registros filtrados          
+                  }).catch(error=>{
+                    console.log(error);
+                  })
+                         break;
+                case "sucursalC":
+                 
+                  //añadiendo datos del alumno al formulario con datos del prop alumnoSeleccionado
+                  f.append("nombre", "sucursalB");
+                  f.append("monto", gananciaSeleccionada.monto);
+                  f.append("empleados", 1);
+                  //indicando el tipo de peticion http
+                  f.append("METHOD", "POST");
+                  //pasando como param el formulario
+                  await axios.post(baseUrl, f)
+                  .then(response=>{
+                    //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+                    //al resto de registros mostrados en la vista
+                    setData(data.concat(response.data));        
+                    peticionGet1(); //peticion de primeros registros filtrados          
+                  }).catch(error=>{
+                    console.log(error);
+                  })
+                  f.append("nombre", "sucursalA");
+                  await axios.post(baseUrl, f)
+                  .then(response=>{
+                    //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+                    //al resto de registros mostrados en la vista
+                    setData(data.concat(response.data));        
+                    alertify.alert('Datos guardados1');
+                    peticionGet1(); //peticion de primeros registros filtrados          
+                  }).catch(error=>{
+                    console.log(error);
+                  })
+                         break;
+              }
+     
+     //creacion de formulario "virtual"
+  
     //añadiendo datos del alumno al formulario con datos del prop alumnoSeleccionado
+    f.append("nombre", gananciaSeleccionada.nombre);
+    f.append("monto", gananciaSeleccionada.monto);
+    f.append("empleados", gananciaSeleccionada.empleados-2);
+    //indicando el tipo de peticion http
+    f.append("METHOD", "POST");
+    //pasando como param el formulario
+    await axios.post(baseUrl, f)
+    .then(response=>{
+      //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
+      //al resto de registros mostrados en la vista
+      setData(data.concat(response.data));        
+      alertify.alert('Datos guardadossss');
+      peticionGet1(); //peticion de primeros registros filtrados          
+    }).catch(error=>{
+      console.log(error);
+    })
+  
+  }
+  else{
+
     f.append("nombre", gananciaSeleccionada.nombre);
     f.append("monto", gananciaSeleccionada.monto);
     f.append("empleados", gananciaSeleccionada.empleados);
@@ -83,12 +209,13 @@ const ProfilePage = () => {
       //la peticion post retorna el registro recien ingresado con su id y luego son concatenados
       //al resto de registros mostrados en la vista
       setData(data.concat(response.data));        
-      alertify.alert('Datos guardados');
+      alertify.alert('Datos guardadossss');
       peticionGet1(); //peticion de primeros registros filtrados          
     }).catch(error=>{
       console.log(error);
     })
   }
+}
 
   //Obtiene los registros con un comentario de felicitacion, pero solo los que tienen monto mayor a 30000
   const peticionGet1 = async()=>{
@@ -124,6 +251,8 @@ const ProfilePage = () => {
       console.log(error);
     })
   }
+
+  //Metodo para actulizar el registro
 
   //carga los datos del registro seleccionado con setgananciaSeleccionada
   const seleccionarGanancia=(ganancia, caso)=>{
