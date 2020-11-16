@@ -13,6 +13,7 @@
     "bootstrap": "^4.5.3",
     "firebase": "^8.0.1",
     "react": "^17.0.1",
+    "react-alertify-js": "0.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.11.2",
     "react-scripts": "4.0.0",

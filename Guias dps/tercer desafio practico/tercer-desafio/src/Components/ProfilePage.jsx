@@ -354,7 +354,7 @@ const ProfilePage = () => {
                               <div class="card-body">
                                 <h5 class="card-title">Monto: {sucursal.monto}</h5>
                                   <p class="card-text">Nº Empleados: {sucursal.empleados}</p>
-                                  <button class="btn btn-primary" onClick={()=>seleccionarGanancia(sucursal, "Editar")}>Editar</button> 
+   
                                     <button className="btn btn-danger" onClick={()=>seleccionarGanancia(sucursal, "Eliminar")}>Eliminar</button>
                               </div>
                               <div class="card-footer font-weight-bold text-success">
@@ -376,7 +376,7 @@ const ProfilePage = () => {
                        <div class="card-body">
                          <h5 class="card-title">Monto: {sucursal.monto}</h5>
                            <p class="card-text">Nº Empleados: {sucursal.empleados}</p>
-                           <button className="btn btn-primary" onClick={()=>seleccionarGanancia(sucursal, "Editar")}>Editar</button> 
+                           
                             <button className="btn btn-danger" onClick={()=>seleccionarGanancia(sucursal, "Eliminar")}>Eliminar</button>
                        </div>
                        <div class="card-footer font-weight-bold text-success">
