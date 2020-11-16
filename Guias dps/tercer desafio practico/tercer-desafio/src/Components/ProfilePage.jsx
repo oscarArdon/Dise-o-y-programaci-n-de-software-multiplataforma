@@ -16,7 +16,7 @@ import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 
 const ProfilePage = () => {
   //recursos con archivos php
-  const baseUrl="http://localhost/apiPhpDesafio3/";
+  const baseUrl="https://desafio3tyure.000webhostapp.com/apiPhpDesafio3/";
   //propiedad para todos los registros de la tabla
   const [data, setData]=useState([]);//variable donde se guarda temporalmente los datos que se pidan con GET
   const [data2, setData2]=useState([]);//variable donde se guarda temporalmente los datos que se pidan con GET
