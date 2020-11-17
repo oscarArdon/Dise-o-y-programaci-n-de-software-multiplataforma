@@ -16,7 +16,7 @@ import {Modal, ModalBody, ModalFooter, ModalHeader} from 'reactstrap';
 
 const ProfilePage = () => {
   //recursos con archivos php
-  const baseUrl="http://localhost/apiPhpDesafio3/";
+  const baseUrl="https://desafio3tyure.000webhostapp.com/apiPhpDesafio3/";
   //propiedad para todos los registros de la tabla
   const [data, setData]=useState([]);//variable donde se guarda temporalmente los datos que se pidan con GET
   const [data2, setData2]=useState([]);//variable donde se guarda temporalmente los datos que se pidan con GET
@@ -354,7 +354,7 @@ const ProfilePage = () => {
                               <div class="card-body">
                                 <h5 class="card-title">Monto: {sucursal.monto}</h5>
                                   <p class="card-text">Nº Empleados: {sucursal.empleados}</p>
-                                  <button class="btn btn-primary" onClick={()=>seleccionarGanancia(sucursal, "Editar")}>Editar</button> 
+   
                                     <button className="btn btn-danger" onClick={()=>seleccionarGanancia(sucursal, "Eliminar")}>Eliminar</button>
                               </div>
                               <div class="card-footer font-weight-bold text-success">
@@ -376,7 +376,7 @@ const ProfilePage = () => {
                        <div class="card-body">
                          <h5 class="card-title">Monto: {sucursal.monto}</h5>
                            <p class="card-text">Nº Empleados: {sucursal.empleados}</p>
-                           <button className="btn btn-primary" onClick={()=>seleccionarGanancia(sucursal, "Editar")}>Editar</button> 
+                           
                             <button className="btn btn-danger" onClick={()=>seleccionarGanancia(sucursal, "Eliminar")}>Eliminar</button>
                        </div>
                        <div class="card-footer font-weight-bold text-success">
